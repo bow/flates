@@ -8,3 +8,13 @@ Nix __fla__ke __te__mplates
 ----
 nix flake new -t github:bow/flates#<template-name> <project-dir>
 ----
+
+.Templates
+[grid=rows,frame=topbot,stripes=odd]
+|===
+| Template | Description
+
+a|`base`
+a|Minimum setup that installs nothing beyond Nix tools.
+
+|===
