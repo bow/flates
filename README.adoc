@@ -1,6 +1,6 @@
 = flate
 
-Nix __fla__ke __te__mplates
+Nix **fla**ke **te**mplates
 
 == Usage
 
@@ -9,10 +9,10 @@ Nix __fla__ke __te__mplates
 nix flake new -t github:bow/flates#<template-name> <project-dir>
 ----
 
-.Templates
-[grid=rows,frame=topbot,stripes=odd]
+[%header,cols="<1,<4",grid=rows,frame=topbot,stripes=odd]
 |===
-| Template | Description
+|Template
+|Description
 
 a|`base`
 a|Minimum setup that installs nothing beyond Nix tools.
