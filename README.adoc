@@ -1,0 +1,10 @@
+= flate
+
+Nix __fla__ke __te__mplates
+
+== Usage
+
+[source,sh]
+----
+nix flake new -t github:bow/flates#<template-name> <project-dir>
+----
