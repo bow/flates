@@ -1,0 +1,14 @@
+# Local dev.
+.direnv
+.envrc-private
+.ignore
+
+# Binary formats.
+*.gif
+*.jpeg
+*.jpg
+*.pdf
+*.png
+*.tar
+*.tar.gz
+*.tiff

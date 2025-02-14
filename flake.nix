@@ -34,6 +34,7 @@
     env
     // {
       templates =
-        template "default";
+        template "asciidoc"
+        // template "default";
     };
 }
