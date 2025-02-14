@@ -1,5 +1,5 @@
 {
-  description = "Base setup";
+  description = "Base template";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";

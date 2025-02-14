@@ -31,7 +31,7 @@
         default = base;
         base = {
           path = ./base;
-          description = "Base template";
+          description = (import ./base/flake.nix).description;
         };
       };
     };
