@@ -14,7 +14,11 @@ nix flake new -t github:bow/flates#<template-name> <project-dir>
 |Template
 |Description
 
-a|`base`
-a|Minimum setup that installs nothing beyond Nix tools.
+a|`asciidoc`
+a|Template for setting up an environment for writing AsciiDoc
+documents. Also includes diagramming tools.
+
+a|`default`
+a|Template that sets up nothing beyond Nix tools.
 
 |===
