@@ -24,14 +24,16 @@
         formatter = pkgs.alejandra;
       }
     );
+    template = name: {
+      ${name} = {
+        path = ./${name};
+        description = (import ./${name}/flake.nix).description;
+      };
+    };
   in
     env
     // {
-      templates = {
-        default = {
-          path = ./default;
-          description = (import ./default/flake.nix).description;
-        };
-      };
+      templates =
+        template "default";
     };
 }
