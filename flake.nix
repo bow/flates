@@ -27,11 +27,10 @@
   in
     env
     // {
-      templates = rec {
-        default = base;
-        base = {
-          path = ./base;
-          description = (import ./base/flake.nix).description;
+      templates = {
+        default = {
+          path = ./default;
+          description = (import ./default/flake.nix).description;
         };
       };
     };
