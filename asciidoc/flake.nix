@@ -1,5 +1,5 @@
 {
-  description = "Nix flake for writing AsciiDoc";
+  description = "AsciiDoc writing environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";

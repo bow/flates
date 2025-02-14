@@ -1,5 +1,5 @@
 {
-  description = "Default minimum template";
+  description = "Default minimum environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
