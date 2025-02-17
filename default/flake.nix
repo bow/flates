@@ -14,12 +14,12 @@
     flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {inherit system;};
-        nixtools = with pkgs; [alejandra deadnix statix];
-        devtools = [];
+        nixTools = with pkgs; [alejandra deadnix statix];
+        devTools = [];
       in {
         devShells = {
           default = pkgs.mkShellNoCC {
-            packages = devtools ++ nixtools;
+            packages = devTools ++ nixTools;
           };
         };
         formatter = pkgs.alejandra;

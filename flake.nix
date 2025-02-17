@@ -18,9 +18,9 @@
     env = flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {inherit system;};
-        nixtools = with pkgs; [alejandra deadnix statix];
+        nixTools = with pkgs; [alejandra deadnix statix];
       in {
-        devShells.default = pkgs.mkShellNoCC {packages = nixtools;};
+        devShells.default = pkgs.mkShellNoCC {packages = nixTools;};
         formatter = pkgs.alejandra;
       }
     );

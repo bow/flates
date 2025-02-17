@@ -14,8 +14,8 @@
     flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {inherit system;};
-        nixtools = with pkgs; [alejandra deadnix statix];
-        devtools = with pkgs; [
+        nixTools = with pkgs; [alejandra deadnix statix];
+        devTools = with pkgs; [
           asciidoctor-with-extensions
           d2
           entr
@@ -25,7 +25,7 @@
       in {
         devShells = {
           default = pkgs.mkShellNoCC {
-            packages = devtools ++ nixtools;
+            packages = devTools ++ nixTools;
           };
         };
         formatter = pkgs.alejandra;
