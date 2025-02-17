@@ -15,7 +15,19 @@
     flake-utils,
     ...
   }: let
-    env = flake-utils.lib.eachDefaultSystem (
+    template = name: {
+      ${name} = {
+        path = ./${name};
+        description = (import ./${name}/flake.nix).description;
+      };
+    };
+  in
+    {
+      templates =
+        template "asciidoc"
+        // template "default";
+    }
+    // flake-utils.lib.eachDefaultSystem (
       system: let
         pkgs = import nixpkgs {inherit system;};
         nixTools = with pkgs; [alejandra deadnix statix];
@@ -24,17 +36,4 @@
         formatter = pkgs.alejandra;
       }
     );
-    template = name: {
-      ${name} = {
-        path = ./${name};
-        description = (import ./${name}/flake.nix).description;
-      };
-    };
-  in
-    env
-    // {
-      templates =
-        template "asciidoc"
-        // template "default";
-    };
 }
