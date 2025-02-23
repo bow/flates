@@ -24,7 +24,8 @@
     templates =
       template "asciidoc"
       // template "default"
-      // template "python-script";
+      // template "python-script"
+      // template "sh-script";
   in
     {templates = templates;}
     // flake-utils.lib.eachDefaultSystem (
