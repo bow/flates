@@ -43,7 +43,7 @@
         '';
         localTools = [
           (pkgs.writeShellApplication {
-            name = "build";
+            name = "build-all";
             runtimeInputs = [pkgs.alejandra];
             text = ''
               ${forEachDir ''
@@ -53,21 +53,21 @@
             '';
           })
           (pkgs.writeShellApplication {
-            name = "check";
+            name = "check-all";
             text = forEachDir ''
               echo "→ checking ''${dir}"
               nix flake check --all-systems --no-build
             '';
           })
           (pkgs.writeShellApplication {
-            name = "clean";
+            name = "clean-all";
             text = forEachDir ''
               echo "→ cleaning ''${dir}"
               rm -f result
             '';
           })
           (pkgs.writeShellApplication {
-            name = "format";
+            name = "format-all";
             runtimeInputs = [pkgs.alejandra];
             text = ''
               shopt -s globstar
@@ -76,7 +76,7 @@
             '';
           })
           (pkgs.writeShellApplication {
-            name = "update";
+            name = "update-all";
             text = forEachDir ''
               echo "→ updating ''${dir}"
               nix flake update
