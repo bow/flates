@@ -1,5 +1,5 @@
 {
-  description = "Python shell script minimal environment";
+  description = "Shell script minimal environment";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
