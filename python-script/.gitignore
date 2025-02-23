@@ -2,3 +2,14 @@
 .direnv
 .envrc-private
 .ignore
+
+# Python.
+**/*.pyc
+**/*.pyo
+**/*.whl
+.cache
+.dmypy.json
+.mypy_cache
+.pytest_cache
+.venv
+htmlcov
