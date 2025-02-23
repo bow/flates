@@ -23,7 +23,8 @@
     };
     templates =
       template "asciidoc"
-      // template "default";
+      // template "default"
+      // template "python-script";
   in
     {templates = templates;}
     // flake-utils.lib.eachDefaultSystem (

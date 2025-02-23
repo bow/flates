@@ -1,0 +1,4 @@
+# Local dev.
+.direnv
+.envrc-private
+.ignore
