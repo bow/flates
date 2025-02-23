@@ -30,4 +30,4 @@ jobs:
         run: nix develop --command alejandra --check $(git ls-files '*.nix')
 
       - name: Check flake
-        run: nix develop --command check
+        run: nix develop --command check-all
