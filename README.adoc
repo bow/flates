@@ -15,10 +15,15 @@ nix flake new -t github:bow/flates#<template-name> <project-dir>
 |Description
 
 a|`asciidoc`
-a|Template for setting up an environment for writing AsciiDoc
-documents. Also includes diagramming tools.
+a|Environment for writing AsciiDoc documents. Also includes diagramming tools.
 
 a|`default`
-a|Template that sets up nothing beyond Nix tools.
+a|Minimal setup with nothing beyond Nix tools.
+
+a|`python-script`
+a|Environment for writing Python scripts that do not depend on third-party libraries.
+
+a|`sh-script`
+a|Environment for writing shell scripts.
 
 |===
