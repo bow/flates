@@ -25,6 +25,7 @@
       template "asciidoc"
       // template "default"
       // template "python-script"
+      // template "ruby-script"
       // template "sh-script";
   in
     {templates = templates;}

@@ -23,6 +23,9 @@ a|Minimal setup with nothing beyond Nix tools.
 a|`python-script`
 a|Environment for writing Python scripts.
 
+a|`ruby-script`
+a|Environment for writing Ruby scripts.
+
 a|`sh-script`
 a|Environment for writing shell scripts.
 

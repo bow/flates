@@ -1,0 +1,12 @@
+# Local dev.
+.direnv
+.envrc-private
+.ignore
+
+# Ruby.
+**/*.gem
+**/*.rbc
+.bundle
+lib/bundler/man
+rdoc
+vendor
