@@ -16,6 +16,32 @@ on:
 
 jobs:
   check:
+    name: "${{ matrix.template.name }}"
+
+    strategy:
+      matrix:
+        template:
+          - name: asciidoc
+            run: ""
+
+          - name: default
+            run: ""
+
+          - name: python-script
+            run: |
+              ./script.py --version
+              ./script.py --help
+
+          - name: ruby-script
+            run: |
+              ./script.rb --version
+              ./script.rb --help
+
+          - name: sh-script
+            run: |
+              ./script.sh --version
+              ./script.sh --help
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -26,8 +52,20 @@ jobs:
         with:
           cachix_auth_token: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
-      - name: Check formatting
-        run: nix develop --command alejandra --check $(git ls-files '*.nix')
-
       - name: Check flake
-        run: nix develop --command check-all
+        run: |
+          cd "${{ matrix.template.name }}"
+          nix flake check --all-systems --no-build
+
+      - name: Check nix formatting
+        run: |
+          cd "${{ matrix.template.name }}"
+          nix develop --command alejandra --check $(git ls-files '*.nix')
+
+      - name: Test content
+        if: "${{ matrix.template.run != '' }}"
+        run: |
+          cd "${{ matrix.template.name }}"
+          while IFS= read -r cmd; do
+            ${cmd}
+          done < <(echo -e "${{ matrix.template.run }}")
