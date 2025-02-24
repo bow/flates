@@ -18,7 +18,7 @@ Usage: ${0} [OPTIONS]
 Script description.
 
 Options:
-    TBD
+        --tbd              TBD
 
 Common options:
     -h, --help             Show this help message and exit
