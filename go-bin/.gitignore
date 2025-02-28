@@ -1,0 +1,14 @@
+# Local dev.
+.direnv
+.envrc-private
+.ignore
+result
+
+# Go.
+bin/
+*.out
+.coverage.out
+.coverage.out.all
+.coverage.xml
+.junit.xml
+coverage.html

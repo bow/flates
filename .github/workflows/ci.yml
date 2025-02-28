@@ -27,6 +27,12 @@ jobs:
           - name: default
             run: ""
 
+          - name: go-bin
+            run: |
+              nix develop --command just bin
+              ./bin/exe version
+              ./bin/exe help
+
           - name: python-script
             run: |
               ./script.py --version

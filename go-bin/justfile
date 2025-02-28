@@ -1,0 +1,60 @@
+#!/usr/bin/env -S just --justfile
+# Justfile for common development tasks.
+
+app-id    := 'exe'
+repo-name := shell("head -n 1 go.mod | sed 's/^module //g'")
+
+# Compile flags and outputs.
+bin-path   := "bin" / app-id
+git-tag    := shell("git describe --tags --always --dirty 2> /dev/null || echo 'untagged'")
+git-commit := shell("git rev-parse --quiet --verify HEAD || echo '?'")
+git-dirty  := if trim(shell("git status --porcelain")) == "" { "" } else { "-dirty" }
+# base-ld-flags are linker flags that can not be overwritten.
+base-ld-flags := (
+    "-X " + repo-name + "/internal.version=" + git-tag
+    + " -X " + repo-name + "/internal.gitCommit=" + git-commit + git-dirty
+)
+
+# Show this help and exit.
+default:
+    @just --list --justfile {{justfile()}} --list-heading $'{{CYAN}}◉ {{YELLOW}}{{app-id}} dev console{{NORMAL}}\n'
+
+# Compile an executable binary.
+bin *ld-flags:
+    go mod tidy && CGO_ENABLED=${CGO_ENABLED:-0} go build -ldflags '{{trim(base-ld-flags + " " + ld-flags)}}' -o {{justfile_directory() / bin-path}}
+
+# Remove all build artifacts.
+clean:
+	rm -f bin/* coverage.html .coverage.out .junit.xml result
+
+# Apply gofmt.
+fmt:
+	go fmt ./...
+
+# Lint the code.
+lint:
+    golangci-lint run
+
+# Perform all security analyses.
+scan-sec: scan-sec-ast scan-sec-deps
+
+# Scan dependencies for reported vulnerabilities.
+scan-sec-deps:
+	go list -json -deps ./... | nancy sleuth
+
+# Perform static security analysis on the AST.
+scan-sec-ast:
+	gosec -exclude=G304 ./...
+
+# Run the test suite.
+test:
+    gotestsum --format dots-v2 --junitfile .junit.xml -- ./... -coverprofile=.coverage.out -covermode=atomic -coverpkg ./internal/...,./cmd/...,./.
+    go tool cover -func=.coverage.out
+
+# Run the test suite and output coverage to XML.
+test-cov-xml: test
+    gocover-cobertura < .coverage.out > .coverage.xml
+
+## un the test suite and output coverage to HTML.
+test-cov-html: test
+	go tool cover -html=.coverage.out -o coverage.html
