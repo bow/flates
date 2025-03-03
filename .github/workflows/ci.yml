@@ -33,6 +33,11 @@ jobs:
               ./bin/exe version
               ./bin/exe help
 
+          - name: python-pkg
+            run: |
+              nix develop . --command uv lock
+              nix develop . --command py.test
+
           - name: python-script
             run: |
               nix develop --command ruff check --select E,F,UP,B,SIM,I

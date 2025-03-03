@@ -1,0 +1,16 @@
+# Local dev.
+.direnv
+.envrc-private
+.ignore
+
+# Python.
+**/*.pyc
+**/*.pyo
+**/*.whl
+.cache
+.dmypy.json
+.mypy_cache
+.pytest_cache
+.ruff_cache
+.venv
+htmlcov

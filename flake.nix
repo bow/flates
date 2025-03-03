@@ -24,6 +24,7 @@
     templates =
       template "asciidoc"
       // template "default"
+      // template "python-pkg"
       // template "python-script"
       // template "ruby-script"
       // template "sh-script";

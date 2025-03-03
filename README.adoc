@@ -20,6 +20,9 @@ a|Environment for writing AsciiDoc documents. Also includes diagramming tools.
 a|`default`
 a|Minimal setup with nothing beyond Nix tools.
 
+a|`python-pkg`
+a|Environment for developing Python packages.
+
 a|`python-script`
 a|Environment for writing Python scripts.
 
