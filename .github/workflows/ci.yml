@@ -41,7 +41,8 @@ jobs:
               nix develop --command uv lock
               git add uv.lock
             run: |
-              nix develop --command py.test
+              nix develop --command ruff check --select E,F,UP,B,SIM,I
+              nix develop --command black -t py313 --check .
 
           - name: python-script
             pre_run: null
