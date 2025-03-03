@@ -16,7 +16,7 @@
         pkgs = import nixpkgs {inherit system;};
         nixTools = with pkgs; [alejandra deadnix statix];
         pyTools = with pkgs; [black ruff];
-        python = pkgs.python3.withPackages (p: [p.mypy]);
+        python = pkgs.python313.withPackages (p: [p.mypy]);
         devPkgs = [python];
       in {
         devShells = {
