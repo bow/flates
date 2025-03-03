@@ -22,23 +22,29 @@ jobs:
       matrix:
         template:
           - name: asciidoc
-            run: ""
+            pre_run: null
+            run: null
 
           - name: default
-            run: ""
+            pre_run: null
+            run: null
 
           - name: go-bin
+            pre_run: null
             run: |
               nix develop --command just bin
               ./bin/exe version
               ./bin/exe help
 
           - name: python-pkg
+            pre_run: |
+              nix develop --command uv lock
+              git add uv.lock
             run: |
-              nix develop . --command uv lock
-              nix develop . --command py.test
+              nix develop --command py.test
 
           - name: python-script
+            pre_run: null
             run: |
               nix develop --command ruff check --select E,F,UP,B,SIM,I
               nix develop --command black -t py312 --check .
@@ -46,11 +52,13 @@ jobs:
               ./script.py --help
 
           - name: ruby-script
+            pre_run: null
             run: |
               ./script.rb --version
               ./script.rb --help
 
           - name: sh-script
+            pre_run: null
             run: |
               ./script.sh --version
               ./script.sh --help
@@ -65,18 +73,26 @@ jobs:
         with:
           cachix_auth_token: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
-      - name: Check flake
+      - name: Pre-run
+        if: "${{ matrix.template.pre_run != null }}"
         run: |
           cd "${{ matrix.template.name }}"
-          nix flake check --all-systems --no-build
+          while IFS= read -r cmd; do
+            ${cmd}
+          done < <(echo -e "${{ matrix.template.pre_run }}")
 
       - name: Check nix formatting
         run: |
           cd "${{ matrix.template.name }}"
           nix develop --command alejandra --check $(git ls-files '*.nix')
 
-      - name: Test content
-        if: "${{ matrix.template.run != '' }}"
+      - name: Check flake
+        run: |
+          cd "${{ matrix.template.name }}"
+          nix flake check --all-systems --no-build
+
+      - name: Check template
+        if: "${{ matrix.template.run != null }}"
         run: |
           cd "${{ matrix.template.name }}"
           while IFS= read -r cmd; do
