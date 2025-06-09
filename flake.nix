@@ -27,7 +27,8 @@
       // template "python-pkg"
       // template "python-script"
       // template "ruby-script"
-      // template "sh-script";
+      // template "sh-script"
+      // template "presenterm";
   in
     {templates = templates;}
     // flake-utils.lib.eachDefaultSystem (
