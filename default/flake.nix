@@ -6,23 +6,30 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    nixpkgs,
-    flake-utils,
-    ...
-  }:
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = import nixpkgs {inherit system;};
-        nixTools = with pkgs; [alejandra deadnix statix];
-        devTools = [];
-      in {
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        nixTools = with pkgs; [
+          deadnix
+          nixfmt-rfc-style
+          statix
+        ];
+        devTools = [ ];
+      in
+      {
         devShells = {
           default = pkgs.mkShellNoCC {
             packages = devTools ++ nixTools;
           };
         };
-        formatter = pkgs.alejandra;
+        formatter = pkgs.nixfmt-rfc-style;
       }
     );
 }

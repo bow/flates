@@ -10,27 +10,37 @@
     };
   };
 
-  outputs = {
-    nixpkgs,
-    flake-utils,
-    nixpkgs-python,
-    ...
-  }:
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      nixpkgs-python,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = import nixpkgs {inherit system;};
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
         pyVersion = "3.13";
-        pyTools = with pkgs; [black ruff];
-        python = nixpkgs-python.packages.${system}.${pyVersion}.withPackages (p: [p.mypy]);
-        devPkgs = [python];
-        nixTools = with pkgs; [alejandra deadnix statix];
-      in {
+        pyTools = with pkgs; [
+          black
+          ruff
+        ];
+        python = nixpkgs-python.packages.${system}.${pyVersion}.withPackages (p: [ p.mypy ]);
+        devPkgs = [ python ];
+        nixTools = with pkgs; [
+          deadnix
+          nixfmt-rfc-style
+          statix
+        ];
+      in
+      {
         devShells = {
           default = pkgs.mkShellNoCC {
             packages = devPkgs ++ pyTools ++ nixTools;
           };
         };
-        formatter = pkgs.alejandra;
+        formatter = pkgs.nixfmt-rfc-style;
       }
     );
 }

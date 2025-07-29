@@ -11,21 +11,19 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-    gomod2nix,
-    ...
-  }:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      gomod2nix,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = import nixpkgs {inherit system;};
-        readFileOr = path: default:
-          with builtins;
-            if pathExists path
-            then (readFile path)
-            else default;
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        readFileOr = path: default: with builtins; if pathExists path then (readFile path) else default;
         repoName = "github.com/bow/exe";
         tagFile = "${self}/.tag";
         revFile = "${self}/.rev";
@@ -44,7 +42,11 @@
             "-X ${repoName}/internal.gitCommit=${commit}"
           ];
         };
-        nixTools = with pkgs; [alejandra deadnix statix];
+        nixTools = with pkgs; [
+          deadnix
+          nixfmt-rfc-style
+          statix
+        ];
         goTools = with pkgs; [
           go
           gocover-cobertura
@@ -55,8 +57,9 @@
           gotestsum
           gotools
         ];
-        devTools = with pkgs; [just];
-      in {
+        devTools = with pkgs; [ just ];
+      in
+      {
         devShells = {
           default = pkgs.mkShellNoCC {
             packages = devTools ++ goTools ++ nixTools;
@@ -65,7 +68,7 @@
         packages = {
           default = app;
         };
-        formatter = pkgs.alejandra;
+        formatter = pkgs.nixfmt-rfc-style;
       }
     );
 }

@@ -6,28 +6,38 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    nixpkgs,
-    flake-utils,
-    ...
-  }:
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
     flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = import nixpkgs {inherit system;};
-        nixTools = with pkgs; [alejandra deadnix statix];
-        rbTools = with pkgs; [bundix];
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        nixTools = with pkgs; [
+          deadnix
+          nixfmt-rfc-style
+          statix
+        ];
+        rbTools = with pkgs; [ bundix ];
         gems = pkgs.bundlerEnv {
           name = "local-dev";
           gemdir = ./.;
         };
-        devPkgs = [gems gems.wrappedRuby];
-      in {
+        devPkgs = [
+          gems
+          gems.wrappedRuby
+        ];
+      in
+      {
         devShells = {
           default = pkgs.mkShellNoCC {
             packages = devPkgs ++ rbTools ++ nixTools;
           };
         };
-        formatter = pkgs.alejandra;
+        formatter = pkgs.nixfmt-rfc-style;
       }
     );
 }

@@ -10,31 +10,40 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {
-    nixpkgs,
-    flake-utils,
-    ...
-  }: let
-    template = name: {
-      ${name} = {
-        path = ./${name};
-        description = (import ./${name}/flake.nix).description;
+  outputs =
+    {
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
+    let
+      template = name: {
+        ${name} = {
+          path = ./${name};
+          description = (import ./${name}/flake.nix).description;
+        };
       };
-    };
-    templates =
-      template "asciidoc"
-      // template "default"
-      // template "python-pkg"
-      // template "python-script"
-      // template "ruby-script"
-      // template "sh-script"
-      // template "presenterm";
-  in
-    {templates = templates;}
+      templates =
+        template "asciidoc"
+        // template "default"
+        // template "python-pkg"
+        // template "python-script"
+        // template "ruby-script"
+        // template "sh-script"
+        // template "presenterm";
+    in
+    {
+      templates = templates;
+    }
     // flake-utils.lib.eachDefaultSystem (
-      system: let
-        pkgs = import nixpkgs {inherit system;};
-        nixTools = with pkgs; [alejandra deadnix statix];
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+        nixTools = with pkgs; [
+          nixfmt-rfc-style
+          deadnix
+          statix
+        ];
         # Adapted from https://github.com/the-nix-way/dev-templates
         forEachDir = cmd: ''
           for dir in ${builtins.concatStringsSep " " (builtins.attrNames templates)}; do
@@ -47,7 +56,7 @@
         localTools = [
           (pkgs.writeShellApplication {
             name = "build-all";
-            runtimeInputs = [pkgs.alejandra];
+            runtimeInputs = [ pkgs.nixfmt-rfc-style ];
             text = ''
               ${forEachDir ''
                 echo "→ building ''${dir}"
@@ -71,11 +80,11 @@
           })
           (pkgs.writeShellApplication {
             name = "format-all";
-            runtimeInputs = [pkgs.alejandra];
+            runtimeInputs = [ pkgs.nixfmt-rfc-style ];
             text = ''
               shopt -s globstar
 
-              alejandra -- **/*.nix
+              nixfmt -- **/*.nix
             '';
           })
           (pkgs.writeShellApplication {
@@ -86,9 +95,10 @@
             '';
           })
         ];
-      in {
-        devShells.default = pkgs.mkShellNoCC {packages = localTools ++ nixTools;};
-        formatter = pkgs.alejandra;
+      in
+      {
+        devShells.default = pkgs.mkShellNoCC { packages = localTools ++ nixTools; };
+        formatter = pkgs.nixfmt-rfc-style;
       }
     );
 }

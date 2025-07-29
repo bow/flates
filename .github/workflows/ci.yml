@@ -85,7 +85,7 @@ jobs:
       - name: Check nix formatting
         run: |
           cd "${{ matrix.template.name }}"
-          nix develop --command alejandra --check $(git ls-files '*.nix')
+          nix develop --command nixfmt --check $(git ls-files '*.nix')
 
       - name: Check flake
         run: |
