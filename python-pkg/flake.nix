@@ -46,22 +46,24 @@
           uv
         ];
         python = pkgs.python313; # NOTE: Keep in-sync with pyproject.toml.
-        devPkgs =
-          [ python ]
-          ++ pyTools
-          ++ nixTools
-          ++ (with pkgs; [
-            just
-            pre-commit
-          ]);
-        ciPkgs =
-          [ python ]
-          ++ pyTools
-          ++ nixTools
-          ++ (with pkgs; [
-            just
-            skopeo
-          ]);
+        devPkgs = [
+          python
+        ]
+        ++ pyTools
+        ++ nixTools
+        ++ (with pkgs; [
+          just
+          pre-commit
+        ]);
+        ciPkgs = [
+          python
+        ]
+        ++ pyTools
+        ++ nixTools
+        ++ (with pkgs; [
+          just
+          skopeo
+        ]);
 
         workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./.; };
         overlay = workspace.mkPyprojectOverlay { sourcePreference = "wheel"; };
