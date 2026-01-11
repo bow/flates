@@ -37,7 +37,7 @@
         pkgs = import nixpkgs { inherit system; };
         nixTools = with pkgs; [
           deadnix
-          nixfmt-rfc-style
+          nixfmt
           statix
         ];
         pyTools = with pkgs; [
@@ -108,7 +108,7 @@
             '';
           };
         };
-        formatter = pkgs.nixfmt-rfc-style;
+        formatter = pkgs.nixfmt;
         packages =
           let
             readFileOr = path: default: with builtins; if pathExists path then (readFile path) else default;

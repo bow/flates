@@ -44,7 +44,7 @@
         };
         nixTools = with pkgs; [
           deadnix
-          nixfmt-rfc-style
+          nixfmt
           statix
         ];
         goTools = with pkgs; [
@@ -68,7 +68,7 @@
         packages = {
           default = app;
         };
-        formatter = pkgs.nixfmt-rfc-style;
+        formatter = pkgs.nixfmt;
       }
     );
 }

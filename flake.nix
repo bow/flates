@@ -40,7 +40,7 @@
       let
         pkgs = import nixpkgs { inherit system; };
         nixTools = with pkgs; [
-          nixfmt-rfc-style
+          nixfmt
           deadnix
           statix
         ];
@@ -56,7 +56,7 @@
         localTools = [
           (pkgs.writeShellApplication {
             name = "build-all";
-            runtimeInputs = [ pkgs.nixfmt-rfc-style ];
+            runtimeInputs = [ pkgs.nixfmt ];
             text = ''
               ${forEachDir ''
                 echo "→ building ''${dir}"
@@ -80,7 +80,7 @@
           })
           (pkgs.writeShellApplication {
             name = "format-all";
-            runtimeInputs = [ pkgs.nixfmt-rfc-style ];
+            runtimeInputs = [ pkgs.nixfmt ];
             text = ''
               shopt -s globstar
 
@@ -98,7 +98,7 @@
       in
       {
         devShells.default = pkgs.mkShellNoCC { packages = localTools ++ nixTools; };
-        formatter = pkgs.nixfmt-rfc-style;
+        formatter = pkgs.nixfmt;
       }
     );
 }

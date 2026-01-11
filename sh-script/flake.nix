@@ -18,7 +18,7 @@
         pkgs = import nixpkgs { inherit system; };
         nixTools = with pkgs; [
           deadnix
-          nixfmt-rfc-style
+          nixfmt
           statix
         ];
         shTools = [ pkgs.shellcheck ];
@@ -29,7 +29,7 @@
             packages = shTools ++ nixTools;
           };
         };
-        formatter = pkgs.nixfmt-rfc-style;
+        formatter = pkgs.nixfmt;
       }
     );
 }

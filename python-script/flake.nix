@@ -30,7 +30,7 @@
         devPkgs = [ python ];
         nixTools = with pkgs; [
           deadnix
-          nixfmt-rfc-style
+          nixfmt
           statix
         ];
       in
@@ -40,7 +40,7 @@
             packages = devPkgs ++ pyTools ++ nixTools;
           };
         };
-        formatter = pkgs.nixfmt-rfc-style;
+        formatter = pkgs.nixfmt;
       }
     );
 }

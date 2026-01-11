@@ -18,7 +18,7 @@
         pkgs = import nixpkgs { inherit system; };
         nixTools = with pkgs; [
           deadnix
-          nixfmt-rfc-style
+          nixfmt
           statix
         ];
         devTools = with pkgs; [
@@ -35,7 +35,7 @@
             packages = devTools ++ nixTools;
           };
         };
-        formatter = pkgs.nixfmt-rfc-style;
+        formatter = pkgs.nixfmt;
       }
     );
 }
