@@ -47,7 +47,7 @@
           ruff
           uv
         ];
-        python = pkgs.python313; # NOTE: Keep in-sync with pyproject.toml.
+        python = pkgs.python314; # NOTE: Keep in-sync with pyproject.toml.
         devPkgs = [
           python
         ]
