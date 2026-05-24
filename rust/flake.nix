@@ -30,6 +30,7 @@
             ];
           };
         };
+        formatter = pkgs.nixfmt;
       }
     );
 }
