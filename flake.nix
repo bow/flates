@@ -20,7 +20,7 @@
       template = name: {
         ${name} = {
           path = ./${name};
-          description = (import ./${name}/flake.nix).description;
+          inherit (import ./${name}/flake.nix) description;
         };
       };
       templates =
@@ -33,7 +33,7 @@
         // template "presenterm";
     in
     {
-      templates = templates;
+      inherit templates;
     }
     // flake-utils.lib.eachDefaultSystem (
       system:
