@@ -29,6 +29,9 @@ a|Environment for writing Python scripts.
 a|`ruby-script`
 a|Environment for writing Ruby scripts.
 
+a|`rust`
+a|Environment for Rust development.
+
 a|`sh-script`
 a|Environment for writing shell scripts.
 

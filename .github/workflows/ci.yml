@@ -58,6 +58,11 @@ jobs:
               ./script.rb --version
               ./script.rb --help
 
+          - name: rust
+            pre_run: null
+            run: |
+              rustc --version
+
           - name: sh-script
             pre_run: null
             run: |

@@ -29,6 +29,7 @@
         // template "python-pkg"
         // template "python-script"
         // template "ruby-script"
+        // template "rust"
         // template "sh-script"
         // template "presenterm";
     in
