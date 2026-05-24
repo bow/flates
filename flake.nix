@@ -26,6 +26,7 @@
       templates =
         template "asciidoc"
         // template "default"
+        // template "go"
         // template "python-pkg"
         // template "python-script"
         // template "ruby-script"

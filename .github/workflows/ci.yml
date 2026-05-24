@@ -29,7 +29,7 @@ jobs:
             pre_run: null
             run: null
 
-          - name: go-bin
+          - name: go
             pre_run: null
             run: |
               nix develop --command just bin
