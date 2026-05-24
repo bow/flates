@@ -6,7 +6,7 @@ src-dir  := 'src' / app-id
 test-dir := 'tests'
 docs-dir := 'docs'
 
-python-ver := 'py313'
+python-ver := 'py314'
 
 # Show this help and exit.
 default:
