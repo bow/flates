@@ -8,13 +8,17 @@ docs-dir := 'docs'
 
 python-ver := 'py314'
 
-# Show this help and exit.
-default:
-    @just --list --justfile {{justfile()}} --list-heading $'{{BOLD}}{{CYAN}}◉ {{YELLOW}}{{app-id}}{{CYAN}} dev console{{NORMAL}}\n'
+[private]
+default: help
 
 # Build wheel and source dist.
-build:
+build-pkg:
     uv build
+
+# Build a docker image and load it into a running daemon.
+build-img:
+    nix build .#dockerArchiveStreamer
+    ./result | docker image load
 
 # Remove build and test artifacts.
 clean:
@@ -22,8 +26,17 @@ clean:
         .coverage .coverage.xml .junit.xml htmlcov/ .cache/ .mypy_cache/ .pytest_cache/ .ruff_cache/ \
         result
 
-# Set local development environment with nix and direnv.
-dev:
+# Reorder imports with ruff then apply black.
+fmt:
+    ruff check --fix
+    black -t {{python-ver}} {{src-dir}} {{test-dir}}
+
+# Show this help and exit.
+help:
+    @just --list --justfile {{justfile()}} --list-heading $'{{BOLD}}{{CYAN}}◉ {{YELLOW}}{{app-id}}{{CYAN}} dev console{{NORMAL}}\n'
+
+# Setup the local development environment with nix and direnv.
+install-dev:
     #!/usr/bin/env bash
     if command -v nix-env > /dev/null && command -v direnv > /dev/null; then
         printf "Configuring a local dev environment and setting up git pre-commit hooks...\n" >&2 \
@@ -37,21 +50,6 @@ dev:
     else
         printf "Error: both direnv and nix seem to be unconfigured and/or missing" >&2 && exit 1
     fi
-
-# Reset local development environment.
-dev-reset:
-    rm -rf .venv .direnv
-    direnv reload
-
-# Reorder imports with ruff then apply black.
-fmt:
-    ruff check --fix
-    black -t {{python-ver}} {{src-dir}} {{test-dir}}
-
-# Build a docker image and load it into a running daemon.
-img:
-    nix build .#dockerArchiveStreamer
-    ./result | docker image load
 
 # Lint the code.
 lint: lint-types lint-style lint-metrics
@@ -89,3 +87,10 @@ test:
         --cov-report=xml:.coverage.xml \
         --cov-report=html:htmlcov \
         {{src-dir}} {{test-dir}}
+
+# Rebuilds the local development environment.
+rebuild-dev:
+    rm -f ./.git/hooks/pre-commit
+    rm -rf .venv .direnv
+    direnv reload
+    DIRENV_LOG_FORMAT="" direnv exec {{justfile_directory()}} pre-commit install \
