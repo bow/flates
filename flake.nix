@@ -17,25 +17,22 @@
       ...
     }:
     let
-      template = name: {
-        ${name} = {
-          path = ./${name};
-          inherit (import ./${name}/flake.nix) description;
-        };
+      inherit (nixpkgs) lib;
+
+      mkTemplate = name: {
+        path = ./${name};
+        inherit (import ./${name}/flake.nix) description;
       };
-      templates =
-        template "asciidoc"
-        // template "default"
-        // template "go"
-        // template "python-pkg"
-        // template "python-script"
-        // template "ruby-script"
-        // template "rust"
-        // template "sh-script"
-        // template "presenterm";
+
+      isTemplateDir =
+        name: type: type == "directory" && !(lib.strings.hasPrefix "." name) && name != "sandbox";
+
+      templateDirs = lib.filterAttrs isTemplateDir (builtins.readDir ./.);
+
+      templateNames = lib.attrNames templateDirs;
     in
     {
-      inherit templates;
+      templates = lib.genAttrs templateNames mkTemplate;
     }
     // flake-utils.lib.eachDefaultSystem (
       system:
@@ -48,7 +45,7 @@
         ];
         # Adapted from https://github.com/the-nix-way/dev-templates
         forEachDir = cmd: ''
-          for dir in ${builtins.concatStringsSep " " (builtins.attrNames templates)}; do
+          for dir in ${builtins.concatStringsSep " " templateNames}; do
             (
               cd "''${dir}"
               ${cmd}
