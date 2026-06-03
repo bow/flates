@@ -36,6 +36,10 @@ jobs:
               ./bin/exe version
               ./bin/exe help
 
+          - name: latex
+            pre_run: null
+            run: null
+
           - name: python-pkg
             pre_run: |
               nix develop --command uv lock
