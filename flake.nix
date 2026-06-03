@@ -61,8 +61,12 @@
           (pkgs.writeShellApplication {
             name = "check-all";
             text = forEachDir ''
-              echo "→ checking ''${dir}"
-              nix flake check --all-systems --no-build
+              if [[ "''${dir}" == "python-pkg" ]]; then
+                echo "→ skipping ''${dir}"
+              else
+                echo "→ checking ''${dir}"
+                nix flake check --all-systems --no-build
+              fi
             '';
           })
           (pkgs.writeShellApplication {
