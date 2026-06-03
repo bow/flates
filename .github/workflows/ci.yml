@@ -48,7 +48,7 @@ jobs:
               nix develop --command ruff check --select E,F,UP,B,SIM,I
               nix develop --command black -t py313 --check .
 
-          - name: python-script
+          - name: python
             pre_run: null
             run: |
               nix develop --command ruff check --select E,F,UP,B,SIM,I
@@ -56,7 +56,7 @@ jobs:
               ./script.py --version
               ./script.py --help
 
-          - name: ruby-script
+          - name: ruby
             pre_run: null
             run: |
               ./script.rb --version
@@ -67,7 +67,7 @@ jobs:
             run: |
               rustc --version
 
-          - name: sh-script
+          - name: sh
             pre_run: null
             run: |
               ./script.sh --version
