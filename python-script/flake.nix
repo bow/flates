@@ -16,23 +16,16 @@
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        pyPackage = pkgs.python314;
-        pyTools = with pkgs; [
-          black
-          ruff
-        ];
-        python = pyPackage.withPackages (p: [ ]);
-        devPkgs = [ python ];
-        nixTools = with pkgs; [
-          deadnix
-          nixfmt
-          statix
-        ];
+        python = pkgs.python314.withPackages (p: [ ]);
       in
       {
         devShells = {
           default = pkgs.mkShellNoCC {
-            packages = devPkgs ++ pyTools ++ nixTools;
+            packages = [
+              python
+              pkgs.black
+              pkgs.ruff
+            ];
           };
         };
         formatter = pkgs.nixfmt;

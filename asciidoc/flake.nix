@@ -16,23 +16,17 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        nixTools = with pkgs; [
-          deadnix
-          nixfmt
-          statix
-        ];
-        devTools = with pkgs; [
-          asciidoctor-with-extensions
-          d2
-          entr
-          mermaid-cli
-          plantuml
-        ];
       in
       {
         devShells = {
           default = pkgs.mkShellNoCC {
-            packages = devTools ++ nixTools;
+            packages = [
+              pkgs.asciidoctor-with-extensions
+              pkgs.d2
+              pkgs.entr
+              pkgs.mermaid-cli
+              pkgs.plantuml
+            ];
           };
         };
         formatter = pkgs.nixfmt;

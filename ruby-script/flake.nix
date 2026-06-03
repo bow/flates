@@ -16,25 +16,19 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        nixTools = with pkgs; [
-          deadnix
-          nixfmt
-          statix
-        ];
-        rbTools = with pkgs; [ bundix ];
         gems = pkgs.bundlerEnv {
           name = "local-dev";
           gemdir = ./.;
         };
-        devPkgs = [
-          gems
-          gems.wrappedRuby
-        ];
       in
       {
         devShells = {
           default = pkgs.mkShellNoCC {
-            packages = devPkgs ++ rbTools ++ nixTools;
+            packages = [
+              gems
+              gems.wrappedRuby
+              pkgs.bundix
+            ];
           };
         };
         formatter = pkgs.nixfmt;

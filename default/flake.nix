@@ -16,17 +16,11 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        nixTools = with pkgs; [
-          deadnix
-          nixfmt
-          statix
-        ];
-        devTools = [ ];
       in
       {
         devShells = {
           default = pkgs.mkShellNoCC {
-            packages = devTools ++ nixTools;
+            packages = [ ];
           };
         };
         formatter = pkgs.nixfmt;

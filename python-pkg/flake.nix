@@ -37,35 +37,17 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        nixTools = with pkgs; [
-          deadnix
-          nixfmt
-          statix
-        ];
-        pyTools = with pkgs; [
-          black
-          ruff
-          uv
-        ];
         python = pkgs.python314; # NOTE: Keep in-sync with pyproject.toml.
-        devPkgs = [
+
+        commonPkgs = [
           python
-        ]
-        ++ pyTools
-        ++ nixTools
-        ++ (with pkgs; [
-          just
-          pre-commit
-        ]);
-        ciPkgs = [
-          python
-        ]
-        ++ pyTools
-        ++ nixTools
-        ++ (with pkgs; [
-          just
-          skopeo
-        ]);
+          pkgs.black
+          pkgs.ruff
+          pkgs.uv
+          pkgs.just
+        ];
+        devPkgs = commonPkgs ++ [ pkgs.pre-commit ];
+        ciPkgs = commonPkgs ++ [ pkgs.skopeo ];
 
         workspace = uv2nix.lib.workspace.loadWorkspace { workspaceRoot = ./.; };
         overlay = workspace.mkPyprojectOverlay { sourcePreference = "wheel"; };

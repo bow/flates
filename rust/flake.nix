@@ -21,11 +21,6 @@
         pkgs = import nixpkgs {
           inherit system overlays;
         };
-        nixTools = with pkgs; [
-          deadnix
-          nixfmt
-          statix
-        ];
       in
       {
         devShells = {
@@ -33,7 +28,6 @@
             buildInputs = [
               pkgs.rust-bin.stable.latest.default
             ];
-            packages = nixTools;
           };
         };
         formatter = pkgs.nixfmt;

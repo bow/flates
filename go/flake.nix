@@ -42,27 +42,22 @@
             "-X ${repoName}/internal.gitCommit=${commit}"
           ];
         };
-        nixTools = with pkgs; [
-          deadnix
-          nixfmt
-          statix
-        ];
-        goTools = with pkgs; [
-          go
-          gocover-cobertura
-          golangci-lint
-          gomod2nix.packages.${system}.default
-          gopls
-          gosec
-          gotestsum
-          gotools
-        ];
-        devTools = with pkgs; [ just ];
       in
       {
         devShells = {
           default = pkgs.mkShellNoCC {
-            packages = devTools ++ goTools ++ nixTools;
+            packages = [
+              pkgs.go
+              pkgs.gocover-cobertura
+              pkgs.golangci-lint
+              gomod2nix.packages.${system}.default
+              pkgs.gopls
+              pkgs.gosec
+              pkgs.gotestsum
+              pkgs.gotools
+
+              pkgs.just
+            ];
           };
         };
         packages = {

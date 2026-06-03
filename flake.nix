@@ -38,11 +38,6 @@
       system:
       let
         pkgs = import nixpkgs { inherit system; };
-        nixTools = with pkgs; [
-          nixfmt
-          deadnix
-          statix
-        ];
         # Adapted from https://github.com/the-nix-way/dev-templates
         forEachDir = cmd: ''
           for dir in ${builtins.concatStringsSep " " templateNames}; do
@@ -96,7 +91,7 @@
         ];
       in
       {
-        devShells.default = pkgs.mkShellNoCC { packages = localTools ++ nixTools; };
+        devShells.default = pkgs.mkShellNoCC { packages = localTools; };
         formatter = pkgs.nixfmt;
       }
     );
