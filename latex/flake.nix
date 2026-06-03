@@ -21,6 +21,7 @@
         devShells = {
           default = pkgs.mkShell {
             packages = [
+              pkgs.entr
               pkgs.texliveFull
             ];
           };
